@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -40,10 +41,26 @@ namespace DatingApp.API.Controllers
             var users = await _repo.GetUsers(userParams);
 
             var usersToReturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
+            InitilizeLiked(usersToReturn, users, currentUserId);
 
             Response.AddPagination(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
 
             return Ok(usersToReturn);
+        }
+
+        private void InitilizeLiked(IEnumerable<UserForListDto> usersToReturn, PagedList<User> users, int currentUserId)
+        {
+            if (usersToReturn != null && usersToReturn.Count() > 0)
+            {
+                foreach (var user in usersToReturn)
+                {
+                    var entityUser = users.FirstOrDefault(u => u.Id == user.Id);
+                    if (entityUser != null && entityUser.Likers != null && entityUser.Likers.Count > 0)
+                    {
+                        user.IsLiked = entityUser.Likers.Any(u => u.LikerId == currentUserId);
+                    }
+                }
+            }
         }
 
         [HttpGet("{id}", Name = "GetUser")]

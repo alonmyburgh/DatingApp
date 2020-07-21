@@ -7,7 +7,7 @@
           <i class="fa fa-user"></i>
         </button>
         <button class="btn-primary" (click)="sendLike(user.id)">
-          <i class="fa fa-heart"></i>
+          <i class="fa" [ngClass]="user.isLiked ? 'fa-heart' : 'fa-heart-o'"></i>
         </button>
         <button class="btn-primary">
           <i class="fa fa-envelope"></i>
