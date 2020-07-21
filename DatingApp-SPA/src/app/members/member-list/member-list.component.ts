@@ -64,10 +64,6 @@ export class MemberListComponent implements OnInit, OnDestroy {
       );
   }
 
-  onLikedUser() {
-    this.loadUsers();
-  }
-
   ngOnDestroy() {
     this.subs.unsubscribe();
     this.usersSubs.unsubscribe();

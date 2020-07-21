@@ -13,7 +13,6 @@ import { Subscription } from 'rxjs';
 export class MemberCardComponent implements OnInit, OnDestroy {
 
   @Input() user: User;
-  @Output() likeClick = new EventEmitter();
   subs = new Subscription();
 
   constructor(private authService: AuthService, private userService: UserService, private alertify: AlertifyService) { }
@@ -24,7 +23,7 @@ export class MemberCardComponent implements OnInit, OnDestroy {
   sendLike(id: number) {
     this.subs = this.userService.sendLike(this.authService.decodedToken.nameid, id).subscribe(data => {
       this.alertify.success('You have liked: ' + this.user.knownAs);
-      this.likeClick.emit();
+      this.user.isLiked = true;
     }, error => {
       this.alertify.error(error);
     });
