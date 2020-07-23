@@ -9,7 +9,7 @@
         <button class="btn-primary" (click)="sendLike(user.id)">
           <i class="fa" [ngClass]="user.isLiked ? 'fa-heart' : 'fa-heart-o'"></i>
         </button>
-        <button class="btn-primary">
+        <button class="btn-primary" [routerLink]="['/members/', user.id]" [queryParams]="{tab: 3}">
           <i class="fa fa-envelope"></i>
         </button>
       </li>
